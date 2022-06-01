@@ -1,44 +1,33 @@
 pipeline{
-    agent any
-    environment {
-    def mvnHome = tool name: 'Maven3', type: 'maven'
-    def mvnCMD = "${mvnHome}/bin/mvn"
-    def DOCKER_TAG = "${dockerid()}"
-    }
-    stages{
-        stage("checkout the code from github"){
-            steps{
-                git 'https://github.com/pnkr5454/devopsproject2'
-            }
-        }
-        stage("build using maven"){
-            steps{
-                sh "${mvnCMD} clean package"
-            }
-        }
-        stage("build the image using dockerfile"){
-            steps{
-                sh "docker build . -t pnkr5454/myapp01:${DOCKER_TAG}"
-            }
-        }
-        stage("push the image to dockerhub"){
-            steps{
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerpwd', usernameVariable: 'dockerusr')]) {
-                 sh "docker login -u ${dockerusr} -p ${dockerpwd}"
-                 sh "docker push pnkr5454/myapp01:${DOCKER_TAG} "    
-                }
-            }
-        }
-        stage("deploy using ansible"){
-            steps{
-                ansiblePlaybook credentialsId: 'deployservers', disableHostKeyChecking: true, 
-                extras: "-e DOCKER_TAG=${DOCKER_TAG}", installation: 'ansible2', 
-                inventory: 'dev.inv', playbook: 'ansiblebook.yml'
-            }
-        }
-    }
-}
-def dockerid(){
-def commitid = sh returnStdout: true, script: 'git rev-parse --short HEAD'
-return commitid
-}
+	    agent any
+	    tools{
+	        maven 'maven1'
+	    }
+	    stages{
+	        stage("checkout the code from github"){
+	            steps{
+	               git credentialsId: 'githubacc', url: 'https://github.com/pnkr5454/my-app' 
+	            }
+	        }
+	        stage("build the code by using maven"){
+	            steps{
+	                sh 'mvn clean package'
+	            }
+	        }
+	        stage("deploy the code to tomcat8"){
+	            steps{
+	                sshagent(['tomcat_dev']){
+	                    //rename the war file
+	                    sh "mv target/*.war target/myweb.war"
+	                    //copy war file into tomcat server
+	                    sh "scp -o StrictHostKeyChecking=no target/myweb.war ec2-user@172.31.51.152:/opt/tomcat8/webapps"
+	                    //start and stop the tomcat8
+	                    sh "ssh ec2-user@172.31.51.152 /opt/tomcat8/bin/shutdown.sh"
+	                    sh "ssh ec2-user@172.31.51.152 /opt/tomcat8/bin/startup.sh"
+	                }
+	            }
+	        }
+	    }
+	}
+
+
