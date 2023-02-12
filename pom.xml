@@ -4,8 +4,8 @@
 	<groupId>in.javahome</groupId>
 	<artifactId>myweb</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.2</version>
-	<name>devopsproject</name>
+	<version>0.0.15-SNAPSHOT</version>
+	<name>my-app</name>
 	<url>http://maven.apache.org</url>
 
 	<dependencies>
@@ -26,6 +26,11 @@
 			<artifactId>junit</artifactId>
 			<version>3.8.1</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi</artifactId>
+		    <version>4.1.2</version>
 		</dependency>
 
 	</dependencies>
