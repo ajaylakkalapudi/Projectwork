@@ -9,6 +9,7 @@ pipeline{
 	              git branch: 'main', credentialsId: 'jenkins', url: 'https://github.com/ajaylakkalapudi/Projectwork.git'
 	            }
 	        }
+		/*
 	        stage("build the code by using maven"){
 	            steps{
 	                sh 'mvn clean package'
@@ -27,6 +28,7 @@ pipeline{
 	                }
 	            }
 	        }
+		*/
 	    }
 	}
 
