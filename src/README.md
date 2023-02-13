@@ -1,4 +1,4 @@
-### Welcome Java Home
+
 Devops is the combination of practices and tools that increases an organization's ability to deliver applications and services at high speed and more frequently. Devops allows your customers to innovate faster.
 
 Github is going to be a central repository for developers to integrate their changes.
