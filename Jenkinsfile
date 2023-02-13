@@ -22,10 +22,10 @@ pipeline{
 	                    //rename the war file
 	                    sh "mv target/*.war target/myweb.war"
 	                    //copy war file into tomcat server
-	                    sh "scp -o StrictHostKeyChecking=no target/myweb.war ec2-user@172.31.44.120:/root/tomcat9/webapps"
+	                    sh "scp -o StrictHostKeyChecking=no target/myweb.war ec2-user@172.31.44.120:/opt/tomcat9/webapps"
 	                    //start and stop the tomcat8
-	                    sh "ssh ec2-user@172.31.44.120 /root/tomcat8/bin/shutdown.sh"
-	                    sh "ssh ec2-user@172.31.44.120 /root/tomcat8/bin/startup.sh"
+	                    sh "ssh ec2-user@172.31.44.120 /opt/tomcat9/bin/shutdown.sh"
+	                    sh "ssh ec2-user@172.31.44.120 /opt/tomcat9/bin/startup.sh"
 	                }
 	            }
 	        }
