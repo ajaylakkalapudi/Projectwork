@@ -7,7 +7,7 @@ pipeline{
 	    stages{
 	        stage("checkout the code from github"){
 	            steps{
-	              git branch: 'main', credentialsId: 'jenkins', url: 'https://github.com/ajaylakkalapudi/Projectwork.git'
+	              git branch: 'main', credentialsId: 'github', url: 'https://github.com/ajaylakkalapudi/Projectwork.git'
 	            }
 	        }
 		
